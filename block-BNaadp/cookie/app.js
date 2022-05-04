@@ -19,30 +19,22 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Middleware
+app.use((req, res, next) => {
+  console.log(req.cookies);
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-// // set a cookie
-app.get('/user/:user', function (req, res) {
-  res.cookie('name', req.params.user).send('<p>Cookie Set: <a href="/user">View Here</a></p>');
-});
-app.get('/user', function (req, res) {
-  res.send(req.cookies.name);
-});
-// app.use(function (req, res, next) {
-//   // check if client sent cookie
-//   var cookie = req.cookies.cookieName;
-//   if (cookie === undefined) {
-//     // no: set a new cookie
-//     var randomNumber = Math.random().toString();
-//     randomNumber = randomNumber.substring(2, randomNumber.length);
-//     res.cookie('cookieName', randomNumber, { maxAge: 900000, httpOnly: true });
-//     console.log('cookie created successfully');
-//   } else {
-//     // yes, cookie was already present
-//     console.log('cookie exists', cookie);
-//   }
-//   next(); // <-- important!
+// set a cookie
+
+// app.get('/user/:user', function (req, res) {
+//   res.cookie('name', req.params.user).send('<p>Cookie Set: <a href="/user">View Here</a></p>');
+// });
+// app.get('/user', function (req, res) {
+//   res.send(req.cookies.name);
 // });
 
 // catch 404 and forward to error handler
