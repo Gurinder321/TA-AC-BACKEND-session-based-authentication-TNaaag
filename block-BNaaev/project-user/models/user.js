@@ -8,7 +8,7 @@ const userSchema = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, minlength: 5, required: true },
     age: Number,
-    phone: Number,
+    phone: { type: Number, minlength: 10, maxlength: 13 },
   },
   { timestamps: true }
 );
