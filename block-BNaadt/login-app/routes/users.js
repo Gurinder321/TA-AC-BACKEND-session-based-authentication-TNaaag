@@ -9,23 +9,31 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/register', (req, res, next) => {
-  res.render('register');
+  console.log();
+  res.render('register', { error: req.flash('error')[0] });
 });
 
 router.post('/register', (req, res, next) => {
   User.create(req.body, (err, user) => {
-    if (err) return next(err);
+    if (err) {
+      if (err.name === 'MongoError') {
+        req.flash('error', 'This email is taken');
+        return res.redirect('/users/register');
+      }
+      if (err.name === 'ValidationError') {
+        req.flash('error', err.message);
+        return res.redirect('/users/register');
+      }
+      return res.json({ err });
+    }
+
     res.redirect('/users/login');
   });
 });
 
 router.get('/login', (req, res, next) => {
-  let error = req.flash('error');
+  let error = req.flash('error')[0];
   res.render('login', { error });
-});
-
-router.post('/login', (req, res, next) => {
-  res.redirect('/users');
 });
 
 router.post('/login', (req, res, next) => {
@@ -55,5 +63,11 @@ router.post('/login', (req, res, next) => {
       res.redirect('/users');
     });
   });
+});
+
+router.get('/logout', (req, res) => {
+  req.session.destroy();
+  // res.clearCookie('connect.sid');
+  res.redirect('/');
 });
 module.exports = router;
