@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <link rel="stylesheet" href="/stylesheets/index.css" />
+  </head>
+  <body>
+    <% include partials/header %>
+    <h1>Login</h1>
+    <form action="/users/login" method="POST">
+      <h2>Login Page</h2>
+
+      <input type="email" name="email" placeholder="Add Email" />
+      <input type="password" name="password" placeholder="Password" />
+
+      <button type="submit">Login</button>
+      <% if(error){ %>
+      <p><%= error %></p>
+      <% } %>
+    </form>
+    <% include partials/footer %>
+  </body>
+</html>
