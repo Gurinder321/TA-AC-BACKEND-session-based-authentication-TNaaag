@@ -3,26 +3,28 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var session = require('express-session');
 var mongoose = require('mongoose');
-var MongoStore = require('connect-mongo');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 var flash = require('connect-flash');
 
-require('dotenv').config();
 var indexRouter = require('./routes/index');
-var registerRouter = require('./routes/register');
+var usersRouter = require('./routes/users');
 var articlesRouter = require('./routes/articles');
-var commentsRouter = require('./routes/comments');
+
+var app = express();
 
 // connect to db
 mongoose.connect(
-  'mongodb://localhost/blogTwo',
-  { useNewUrlParser: true, useUnifiedTopology: true },
+  'mongodb://localhost/blog-2-1',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  },
   (err) => {
     console.log('Connected', err ? false : true);
   }
 );
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -35,18 +37,18 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   session({
-    secret: process.env.SECRET,
-    resave: true,
-    saveUninitialized: true,
-    store: new MongoStore({ mongoUrl: 'mongodb://localhost/newBlog' }),
+    secret: 'somerandomsecret',
+    saveUninitialized: false,
+    resave: false,
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
   })
 );
 
 app.use(flash());
+
 app.use('/', indexRouter);
-app.use('/register', registerRouter);
+app.use('/users', usersRouter);
 app.use('/articles', articlesRouter);
-app.use('/comments', commentsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
