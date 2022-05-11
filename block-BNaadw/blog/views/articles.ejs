@@ -1,26 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <nav>
-      <a href="/">Homepage</a>
-      <a href="/articles/new">Add Articles</a>
-    </nav>
-    <h1>All Articles</h1>
+<% include partials/header1.ejs %>
+<h1>Welcome <%= data %></h1>
 
-    <% articles.forEach(a => { %>
-    <section>
-      <div>
-        <a href="/articles/<%= a.id %>">
-          <h2><%= a.title %></h2>
-        </a>
-      </div>
-    </section>
+<a href="/articles">Click here to view the articles</a>
 
-    <% }) %>
-  </body>
-</html>
+<% include partials/footer.ejs %>

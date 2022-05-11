@@ -1,16 +1,15 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+let mongoose = require('mongoose');
+let Article = require('./article');
+let bcrypt = require('bcrypt');
+let Schema = mongoose.Schema;
 
-const commentSchema = new Schema(
+let commentSchema = new Schema(
   {
-    content: { type: String, required: true },
-    articleId: { type: Schema.Types.ObjectId, ref: 'Article', required: true },
-    likes: { type: Number, default: 0 },
-    author: String,
+    name: String,
+    comment: String,
+    articleId: { type: Schema.Types.ObjectId, ref: 'Article' },
   },
   { timestamps: true }
 );
-
-const Comment = mongoose.model('Comment', commentSchema);
-
+let Comment = mongoose.model('Comment', commentSchema);
 module.exports = Comment;

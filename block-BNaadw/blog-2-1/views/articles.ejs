@@ -1,0 +1,13 @@
+<% include partials/header-logout %>
+<p>Article list</p>
+<h1>All Articles</h1>
+
+<% if(articles.length) { %> <% articles.forEach(article => { %>
+
+<a href="/articles/<%= article.id %>">
+  <h2><%= article.title %></h2>
+</a>
+
+<% }) %> <% } else { %>
+<h2>No Articles Present</h2>
+<% } %> <% include partials/footer %>
