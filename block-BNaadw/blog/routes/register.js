@@ -12,8 +12,8 @@ router.get('/login', function (req, res, next) {
   res.render('login', { error });
 });
 router.post('/', (req, res, next) => {
-  console.log(req.body);
   Register.create(req.body, (err, register) => {
+    console.log(err, register);
     if (err) return next(err);
     res.redirect('/register/login');
   });
