@@ -1,0 +1,11 @@
+<% include partials/header-logout %>
+<p>Product list</p>
+<h1>All Products</h1>
+
+<% if(products.length) { %> <% products.forEach(product => { %>
+<a href="/products/<%= product.id %>">
+  <h2><%= product.name %></h2>
+</a>
+<% }) %> <% } else { %>
+<h2>No Products Present</h2>
+<% } %> <% include partials/footer %>
