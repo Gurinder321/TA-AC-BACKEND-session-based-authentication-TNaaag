@@ -1,6 +1,24 @@
 <a href="">
   <h3>Logo</h3>
 </a>
+
+<% if(user) { %>
+<nav>
+  <a href=""><%= user.name %></a>
+  <div>
+    <a href="/products">
+      <button>All Products</button>
+    </a>
+    <a href="/products/new">
+      <button>Products</button>
+    </a>
+    <a href="/users/logout">
+      <button>Logout</button>
+    </a>
+  </div>
+</nav>
+<% } else { %>
+
 <div>
   <a href="/users/login">
     <button>Login</button>
@@ -9,3 +27,5 @@
     <button>Register</button>
   </a>
 </div>
+
+<% } %>
