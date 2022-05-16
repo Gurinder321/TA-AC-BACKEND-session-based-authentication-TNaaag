@@ -7,7 +7,7 @@ var productSchema = new Schema(
     quantity: { type: Number, required: true },
     image: String,
     price: Number,
-    comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+    author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { timestamps: true }
 );

@@ -11,6 +11,7 @@ var flash = require('connect-flash');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/products');
+var auth = require('./middlewares/auth');
 
 var app = express();
 
@@ -44,6 +45,8 @@ app.use(
   })
 );
 app.use(flash());
+
+app.use(auth.userInfo);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);

@@ -1,23 +1,7 @@
 let express = require('express');
-
 let Product = require('../models/product');
-
 let router = express.Router();
-//page for creating product
-router.get('/new', (req, res, next) => {
-  res.render('addProduct');
-});
-
-//create product with details and save it in DB
-router.post('/new', (req, res, next) => {
-  Product.create(req.body, (err, product) => {
-    console.log(req.body);
-    if (err) {
-      return next(err);
-    }
-    res.redirect('/products');
-  });
-});
+var auth = require('../middlewares/auth');
 
 //render all products
 router.get('/', (req, res, next) => {
@@ -29,17 +13,39 @@ router.get('/', (req, res, next) => {
   });
 });
 
+//page for creating product
+router.get('/new', auth.loggedInUser, (req, res, next) => {
+  res.render('addProduct');
+});
+
 // fetch only one article
 router.get('/:id', (req, res, next) => {
-  if (req.session && req.session.userId) {
-    var id = req.params.id;
-    Product.findById(id).exec((err, product) => {
+  var id = req.params.id;
+  // Product.findById(id).exec((err, product) => {
+  //   if (err) return next(err);
+  //   res.render('productDetail.ejs', { product });
+  // });
+  Product.findById(id)
+    .populate('author', 'name email')
+    .exec((err, product) => {
+      console.log(err, product);
       if (err) return next(err);
       res.render('productDetail.ejs', { product });
     });
-  } else {
-    res.redirect('/users/login');
-  }
+});
+
+router.use(auth.loggedInUser);
+
+//create product with details and save it in DB
+router.post('/new', (req, res, next) => {
+  req.body.author = req.user._id;
+  Product.create(req.body, (err, product) => {
+    console.log(req.body);
+    if (err) {
+      return next(err);
+    }
+    res.redirect('/products');
+  });
 });
 
 //updating article form
@@ -62,6 +68,7 @@ router.post('/:id', (req, res, next) => {
 
 // deleting products
 router.get('/:id/delete', (req, res, next) => {
+  // check whether current logged in user matches with the author of the articles
   var id = req.params.id;
   Product.findByIdAndDelete(id, (err, product) => {
     if (err) return next(err);
