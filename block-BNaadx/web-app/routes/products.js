@@ -53,16 +53,27 @@ router.get('/:id/edit', (req, res, next) => {
   var id = req.params.id;
   Product.findById(id, (err, product) => {
     if (err) return next(err);
-    res.render('editProduct', { product });
+    if (req.session.userId.toString() === product.author.toString()) {
+      res.render('editProduct', { product });
+    } else {
+      res.redirect('/products/' + id);
+    }
   });
 });
 
 // update article
 router.post('/:id', (req, res, next) => {
   var id = req.params.id;
-  Product.findByIdAndUpdate(id, req.body, (err, updateProduct) => {
+  Product.findById(id, (err, product) => {
     if (err) return next(err);
-    res.redirect('/products/' + id);
+    if (req.session.userId.toString() === product.author.toString()) {
+      Product.findByIdAndUpdate(id, req.body, (err, updateProduct) => {
+        if (err) return next(err);
+        res.redirect('/products/' + id);
+      });
+    } else {
+      res.redirect('/products/' + id);
+    }
   });
 });
 
