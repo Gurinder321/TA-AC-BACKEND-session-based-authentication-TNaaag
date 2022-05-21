@@ -1,0 +1,12 @@
+<% include partials/header %>
+
+<form action="/products/new" method="POST">
+  <h2>Add Product</h2>
+  <input type="text" name="name" placeholder="Add Name" />
+  <input type="number" name="quantity" placeholder="Add Quantity" />
+  <input type="number" name="price" placeholder="Price" />
+
+  <input type="submit" />
+</form>
+
+<% include partials/footer %>

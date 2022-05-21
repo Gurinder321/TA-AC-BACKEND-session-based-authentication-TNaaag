@@ -1,0 +1,11 @@
+<% include partials/header %>
+
+<form action="/products/<%= product.id %>" method="POST">
+  <h2>Update Product Details</h2>
+  <input type="text" name="name" placeholder="Name" value="<%= product.name %>" />
+  <input type="numer" name="quantity" placeholder="Quantity" value="<%= product.quantity %>" />
+  <input type="number" name="price" placeholder="Price" value="<%= product.price %>" />
+  <button type="submit">Update Product</button>
+</form>
+
+<% include partials/footer %>

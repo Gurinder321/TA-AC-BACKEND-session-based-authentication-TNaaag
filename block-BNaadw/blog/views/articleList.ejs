@@ -1,0 +1,25 @@
+<% include partials/header1.ejs %>
+
+<div class="container">
+  <% articles.forEach(article => { %>
+  <div>
+    <h1><%= article.title %></h1>
+    <h2><%= article.author %></h2>
+    <p><%= article.description %></p>
+    <div class="center">
+      <h3>Likes: <%= article.likes %></h3>
+      <a href="/articles/<%= article.id %>/inc">
+        <button class="btn">Likes</button>
+      </a>
+    </div>
+  </div>
+  <div>
+    <a href="/articles/<%= article.id %>/edit">
+      <button class="edit">Update</button>
+    </a>
+    <a href="/articles/<%= article.id %>/delete">
+      <button class="delete">Delete</button>
+    </a>
+  </div>
+  <% }) %> <% include partials/footer.ejs %>
+</div>

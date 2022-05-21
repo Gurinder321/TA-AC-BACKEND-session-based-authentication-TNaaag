@@ -1,0 +1,16 @@
+<% include partials/header-logout %>
+
+<h2>Product: <%= product.name %></h2>
+<h3>Author: <%= product.author.name %></h3>
+<h3>Price: <%= product.price %></h3>
+<h4>Quantity: <%= product.quantity %></h4>
+
+<a href="/products/<%= product.id %>/edit">
+  <button>Update</button>
+</a>
+
+<a href="/products/<%= product.id %>/delete">
+  <button>Delete</button>
+</a>
+
+<% include partials/footer %>
